@@ -91,3 +91,19 @@ task deploy(type: Jar){
         }
     }
 }
+
+task mjar(){
+    dependsOn "jar"
+    ext {
+        directory = "C:\\Users\\Никита\\AppData\\Roaming\\Mindustry\\mods"
+    }
+    doLast {
+        delete {
+            delete "${directory}/${project.archivesBaseName}Desktop.jar"
+        }
+        copy {
+            from "$buildDir/libs/${project.archivesBaseName}Desktop.jar"
+            into directory
+        }
+    }
+}
