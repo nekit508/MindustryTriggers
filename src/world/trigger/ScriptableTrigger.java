@@ -1,16 +1,23 @@
 package world.trigger;
 
+import arc.func.Cons;
 import arc.func.Prov;
 import arc.graphics.g2d.Draw;
 import arc.scene.ui.TextArea;
 import arc.scene.ui.TextField;
+import arc.scene.ui.layout.Cell;
 import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Strings;
 import arc.util.io.Writes;
 import mindustry.Vars;
+import mindustry.gen.Icon;
+import mindustry.gen.Tex;
 import mindustry.graphics.Drawf;
+import mindustry.ui.Styles;
 import ui.Dialogs;
+import ui.dialogs.ScratchCanvasDialog;
 import world.Trigger;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -42,11 +49,11 @@ public class ScriptableTrigger extends Trigger {
         owner.button("Create", () -> {
             Dialogs.createTriggerDialog.hide();
             ScriptableTriggerObject trigger = spawn(Float.parseFloat(xF.getText()), Float.parseFloat(yF.getText()), sA.getText());
+            trigger.add();
         });
     }
 
     public class ScriptableTriggerObject extends TriggerObject {
-        public float x, y;
         public String script, preScriptStatic;
         public Prov<String> preScriptDynamic = () -> "";
 
@@ -59,6 +66,7 @@ public class ScriptableTrigger extends Trigger {
 
         @Override
         public void draw() {
+            super.draw();
             Drawf.circles(x, y, 10);
         }
 

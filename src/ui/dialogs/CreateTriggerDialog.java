@@ -11,7 +11,6 @@ import mindustry.ui.dialogs.BaseDialog;
 import world.Trigger;
 
 public class CreateTriggerDialog extends BaseDialog {
-    public Table triggersListContainer;
     public Table triggerCreateTable;
 
     public CreateTriggerDialog(){
@@ -23,24 +22,22 @@ public class CreateTriggerDialog extends BaseDialog {
     public void setup(){
         cont.clear();
 
-        cont.table(t -> {
+        cont.fill(t -> {
             Table triggersList = new Table().top();
-            triggersListContainer = t;
+            triggersList.setWidth(t.getWidth());
 
             Trigger.triggersTypes.forEach((id, triggerType) -> {
-                triggersList.table(tt -> {
-                    triggerType.constructListElement(tt);
-                    tt.button(new TextureRegionDrawable(Core.atlas.find("mtm-plus")), () -> {
-                        setup(triggerType);
-                    }).right();
-                });
+                triggerType.constructListElement(triggersList);
+                triggersList.button(new TextureRegionDrawable(Core.atlas.find("mtm-plus")), () -> {
+                    setup(triggerType);
+                }).right();
                 triggersList.row();
-                triggersList.setWidth(triggersListContainer.getWidth()*0.8f);
             });
+
             ScrollPane scroll = new ScrollPane(triggersList, Styles.smallPane);
             scroll.setOverscroll(false, false);
             scroll.setScrollingDisabled(true, false);
-            triggersListContainer.add(scroll).maxHeight(triggersListContainer.getHeight()).width(triggersListContainer.getWidth()*0.8f);
+            t.add(scroll).maxHeight(t.getHeight());
         });
     }
 
